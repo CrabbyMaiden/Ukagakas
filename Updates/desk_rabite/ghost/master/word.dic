@@ -1,0 +1,105 @@
+﻿userfolder
+{
+	"Recycle Bin"
+	"Documents folder"
+	"Picture folder"
+	"Downloads folder"
+	"secret stash"
+	"Music folder"
+}
+
+randomfetch
+{
+	"\p[2]\s[50]\_v[DogSong.mp3]\0\s[8]%(username) brings you an annoying dog!\w8\w8\w8\n\n... You tell %(username) that's the wrong game and send the dog back.\w8\w8\w8\0\s[2]\p[2]\s[-1]"
+}
+ 
+goodrabite
+{
+	"\0\s[0]You praise your Rabite for being the best!\n\n\w8"
+	--
+	if affection > 75
+	{
+		"\0\s[4]%(username) looks thrilled from the unexpected praise!\e"
+		affection++
+	}
+	elseif affection < 75 && affection > 50
+	{
+		"\0\s[8]%(username) looks pleased.\e"
+		affection++
+	}
+	elseif affection < 50 && affection > 25
+	{
+		"\0\s[8]%(username) doesn't understand what's going on, but the praise is nice!\e"
+		affection++
+	}
+	elseif affection < 25
+	{
+		"\0\s[7]The Rabite isn't sure what to make of that.\e"
+	}
+}
+
+badrabite
+{
+	"\0\s[0]You scold your Rabite for being naughty.\n\n\w8"
+	--
+	if affection > 75
+	{
+		"\0\s[7]%(username) looks very upset that %(heshe) disappointed you.\e"
+		affection++
+	}
+	elseif affection < 75 && affection > 50
+	{
+		"\0\s[2]%(username) knows %(heshe) did something wrong and will attempt to be a better Rabite for you.\e"
+		affection++
+	}
+	elseif affection < 50 && affection > 25
+	{
+		"\0\s[2]%(username) looks unsure of what %(heshe) did, but accepts the scolding.\e"
+	}
+	elseif affection < 25
+	{
+		"\0\s[7]The Rabite deflates at the scolding.\e"
+		affection--
+	}	
+}
+ 
+ 
+chattyniccolo
+{
+	"\1\s[26]''There isn't any highway bandits around here, is there? They're terrible for business.\w8\w8\n\nIf you do see any, give them a good wallop for me.''\e"
+	
+	"\1\s[26]''I've never set up shop in a place like this before. I have high hopes that you'll be my best customer!''\e"
+	
+	"\1\s[26]''This will be a LUCREtive business venture, haha.''\e"
+	
+	"\1\s[26]''There isn't a single Sproutling here?\w8\w8\ What luck. I'm so relieved.''\e"
+}
+
+
+bunnymonster
+{
+	"\1\s[26]''You're not the first to tame a Rabite. I met a lad and lass on Luon Highway that had a monster corral with all sorts of creatures they'd raise from eggs.\n\n\w8\w6Personally, I think the world would be a better place if it was nothing but kittens and bunnies.''"
+	
+	"\1\s[26]''That's an awfully small Rabite. Are you sure you're feeding it enough?\n\n\1\s[25]Not to worry; I'll have lots of produce in stock that's guaranteed to help your friend grow up to be big and strong!''"
+	
+	"\1\s[26]''That thing is somehow a menace to society and completely adorable at the same time. I don't know why you'd bother keeping it.''"
+	
+	"\1\s[26]''I saw your Rabite eating out of your %(userfolder). Maybe you should hire a trainer for it.\w8\w8\n\nNot me though.''"
+}
+ 
+ 
+ mysteriousniccolo
+ {
+	"\0\s[0]You ask Niccolo what he is.\w8\w8\1\s[26]''I am a Niccolo.''\w8\w8\0\s[0]\n\nNo, you know his name. But what \f[italic,true]is\f[italic,false] he?\w8\w8\1\s[26]\n\n''Niccolo.''\w8\w8\0\s[0]\n\nIs that a cat? A rabbit?\w8\w8\1\s[26]\n\n''Just a Niccolo, if you would.''\w8\w8\0\s[0]\n\nYou tell him he's being difficult.\w8\w8\1\s[26]\n\n''Hmmm...\w8\w6 You could try being more concise with your questions.\w8\w8\w8 Or pay me ten billion Lucre.''\w8\w8\0\s[0]\n\n... You give up.\w8\w8"
+	
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ On_\person
+{
+ 	person
+}

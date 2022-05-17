@@ -1,0 +1,239 @@
+﻿OnFirstBoot
+{
+ 	lastTalk = ""
+	passhour = 0
+	passmin = 0 
+	passsec = 0
+ 	username         = "Rabite"
+	stroke           = 0
+	affection        = 25	
+ 	teachusername    = 0	
+	mikireflag       = 0	
+ 	aitalkinterval = 300 
+	talktime = "5 minutes"
+	deleteshitai = "OFF" 
+	nowshell = "master" 
+	firstboot = 1
+	
+	if reference0 == 0 
+ 	{
+		"\![enter,passivemode]\0\s[0]Oh! It's a Rabite!\w8\w6\n\nThis round bunny-like monster is from the land of Fa'Diel and are known for their voracious appetites and powerful bite attacks - but this one seems quite friendly! And it looks like it wants to stick around your desktop...\w8\x\c\0\s[0]What pronouns would you like to use for it?\n\n[half]/
+		\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
+		\![*]\q[She/Her/Hers,choicefirstsheher]\n/
+		\![*]\q[They/Them/Their,choicefirsttheythem]\e"
+ 	}
+	else
+ 	{
+ 		"\![enter,passivemode]\0\s[0]Oh! It's a Rabite!\w8\w6\n\nThis round bunny-like monster is from the land of Fa'Diel and are known for their voracious appetites and powerful bite attacks - but this one seems quite friendly! And it looks like it wants to stick around your desktop...\w8\x\c\0\s[0]What pronouns would you like to use for it?\n\n[half]/
+		\w5\_q\![*]\q[He/Him/His,choicefirsthehim]\n/
+		\![*]\q[She/Her/Hers,choicefirstsheher]\n/
+		\![*]\q[They/Them/Their,choicefirsttheythem]\e"
+ 	}
+}
+
+Select.choicefirsthehim
+{
+	presuffix = "masculine"
+	himher = "him"
+	heshe = "he"
+	hisher = "his"
+	hesshes = "he's"
+	--
+	NameInput
+}
+
+Select.choicefirstsheher
+{
+	presuffix = "feminine"
+	himher = "her"
+	heshe = "she"
+	hisher = "her"
+	hesshes = "she's"
+	--
+	NameInput
+}
+
+Select.choicefirsttheythem
+{
+	himher = "them"
+	heshe = "they"
+	hisher = "theirs"
+	hesshes = "they're"
+	--
+	NameInput
+}
+
+NameInput
+{
+	"\0\s[0]What would you like to name %(himher)? \![leave,passivemode]\![open,inputbox,OnNameTeach,-1]\e"
+}
+
+
+timeslot
+{
+	if hour >= 5 && hour <= 8
+	{	"earlymorning"	}
+	elseif hour >= 9 && hour <= 11
+	{	"morning"	}
+	elseif hour >= 12 && hour <= 14
+	{	"lunch"	}
+	elseif hour >= 15 && hour <= 17
+	{	"afternoon"	}
+	elseif hour >= 18 && hour <= 20
+	{	"evening"	}
+	elseif hour >= 21 && hour <= 24
+	{ "latenight"	}
+	else
+	{ "midnight" }
+}
+
+
+dayslot
+{
+	"%(month)month %(day)day"
+}
+
+
+OnBoot
+ {
+	lastTalk = "" 
+	passhour = 0
+	passmin = 0
+	passsec = 0
+	
+ 	"\0\s[0]\1\s[10]%(normalboottalk)"
+}
+
+
+
+normalboottalk
+{
+	if timeslot == "earlymorning"
+	{
+	"\0\s[1]%(username) grunts at you and goes back to sleep.\e"
+	}
+	elseif timeslot == "morning"
+	{
+	"\0\s[4]%(username) greets you with a happy purr! %(heshe) excitedly waits for breakfast.\e"
+	}
+	elseif timeslot == "lunch"
+	{
+	"\0\s[2]%(username) is eagerly awaiting %(hisher) lunch.\e"
+	}
+	elseif timeslot == "afternoon"
+	{
+	"\0\s[1]%(username) looks ready for an afternoon nap.\e"
+	}
+	elseif timeslot == "evening"
+	{
+ 	"\0\s[0]%(username) is quietly grooming %(hisher) fur.\e"
+	}
+	elseif timeslot == "latenight"
+	{
+ 	"\0\s[1]%(username) looks sleepy.\n\nIt's getting late, isn't it?\e"
+	}
+	else 
+	{
+	"\0\s[1]%(username) is snoring loudly and doesn't seem to realize you're there.\e"
+	}
+}
+
+
+OnClose
+ {
+	"\0\s[0]You decide to let %(username) go outside for some fresh air.\w8\w8\-"
+ }
+
+
+OnWindowStateRestore
+ {
+	"\0\s[4]%(username) looks confused, but happy to see you!\e"
+}
+
+
+ 
+OnGhostChanging
+ {
+	if reference0 == "Rabite"
+	{
+		"\0\s[0]Reloading.\w8\w8\e"
+	}
+ 	else
+	{
+		"\0\s[0]You send %(username) outside to make space for %(reference0).\w8\w8\e"
+	}
+}
+
+
+OnGhostChanged
+{
+	"\0\s[0]" 
+	--
+	if reference0 == "Rabite" 
+	{
+		"\0\s[4]%(username) looks confused, but is happy to see you!\e"
+	}
+	else 
+	{
+		"\0\s[0]It's %(username)!\e"
+	}
+}
+
+
+OnShellChanging
+ {
+	if reference0 == "Hypothetical Shell that doesn't actually exist" //reference0 in OnShellChanging is the name of the shell you're swapping to. It should be defined in the descript.txt file in your shell folder. If you do have alternate shells, put in the right name here.
+	{
+	"\1\s[10]This dialogue is specifically for changing to this particular shell.\w8\0\w8\s[9]It totally exists.\w8\e"
+	//Then rewrite this line as appropriate.
+	}
+	else //if you don't have any specific dialogue for a specific shell
+	{
+	"\0\s[0]This dialogue is for changing shells.\w8\1\s[10]Sure is.\w8\e"
+	
+	"\1\s[10]This is another bit of dialogue for changing shells.\w8\0\s[8]I wonder how many people will actually have multiple shells?\e"
+	
+	//Rewrite these two lines as you need.
+	}
+ }
+ 
+ 
+ //--OnShellChanged
+ 
+ //The sister to the above, this is the dialogue after you've changed the shell.
+ 
+OnShellChanged
+ {
+ 	if reference0 == "GT Default Shell" //Again, this is the name of your shell as you put in the descript.txt file for that shell.
+ 	{
+ 		nowshell = "master" //This is the folder name for your shell. Not the same as the above! 
+		
+ 		"\0\s[0]This dialogue is for switching to our default shell.\w8\1\s[18]No really, will anyone actually put in the work to use these functions?\w8\0\s[9]\n\n[half]Shh.\e"
+		//Replace dialogue as required.
+ 	}
+ 	elseif reference0 == "Hypothetical Shell that doesn't actually exist" //You can use as many elseifs for as many shells as you've got.
+ 	{
+ 		nowshell = "totallyrealshell"
+		
+ 		"\0\s[0]This dialogue is for switching to that hypothetical shell.\e"
+		
+ 		"\0\s[0]This is another bit of dialogue for switching to this hypothetical shell.\w8\1\s[18]Man if you actually use this, you should tell Zar, it'll blow her mind.\w8\0\n\n[half]\s[9]Shut up, we're not supposed to be in-character here.\e"
+		//Replace these bits with whatever you have in mind.
+ 	}
+ 	elseif reference0 == "Another totally real shell wow"
+ 	{
+ 		nowshell = "thiswouldbesomuchwork"
+		
+ 		"\1\s[10]This dialogue is after we've switched to another totally real shell.\e"
+		//Replace this as well.
+ 	}
+ 	else //For any shell without a specific name, or if you don't want to bother with individual responses to a shell.
+ 	{
+	"\0\s[0]This dialogue is after we've changed our shell to %(reference[0]).\w8\1\s[18]How many shells you got?\e"
+	
+	//Note the %(reference[0]) here! This time that should store the name of whatever shell you're switching to. Replace this bit of dialogue as you need.
+	}
+ }
+
+
+ 

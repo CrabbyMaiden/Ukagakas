@@ -1,0 +1,518 @@
+﻿
+
+OpenSakuraMenu
+{
+		"\0\s[0]\b2You check on %(username)."
+		--
+		MenuRun
+}
+
+MenuRun
+ {	
+ 	wd = GetWeekDay
+ 	ap = GetAP
+ 	nowmin = Getnowmin
+ 	nowhour = Getnowhour
+	--
+	"\n\n\_q\b2" 
+	--
+	if lastTalk != "" 
+	{
+	  "\![*]\q[Repeat Last Interaction,OnLastTalk]\n"
+	}
+	--
+ 	"\![*]\q[Interact,OnAiTalk]\n\n"
+	--
+	"\![*]\q[Feed %(username),foodie]\n/
+	\![*]\q[Play With %(username),playtime]\n/
+	\![*]\q[Shop,niccolosummoned]\n\n/
+	\![*]\q[Config Menu,configmenu]\n/
+	\![*]\q[Functions,dosomething]\n\n[half]/
+ 	\![*]\q[Nevermind,CANCEL]\n\n\n[half]%(wd) %(nowhour):%(nowmin) %(ap), %(month)/%(day)/%(year)\e"
+}
+
+OnLastTalk 
+{
+"%(lastTalk)\e"
+}
+
+GetWeekDay
+{
+	if weekday == 0
+	{"Sun"}
+	elseif weekday == 1
+	{"Mon"}
+	elseif weekday == 2
+	{"Tue"}
+	elseif weekday == 3
+	{"Wed"}
+	elseif weekday == 4
+	{"Thu"}
+	elseif weekday == 5
+	{"Fri"}
+	else
+	{"Sat"}
+}
+
+GetAP
+{
+ 	if hour >= 0 && hour <= 11
+ 		{"AM"}
+ 	else
+ 		{"PM"}
+}
+
+Getnowmin
+{
+	if minute >= 0 && minute <=9
+		{"0%(minute)"}
+	else
+		{"%(minute)"}
+}
+
+Getnowhour
+{
+	if hour12 >= 0 && hour12 <=9
+		{"0%(hour12)"}
+	else
+		{"%(hour12)"}
+}
+
+Select.BACKTOMENU
+	{
+		MenuRun
+	}
+
+Select.configmenu
+	{
+		TalkConfig
+	}
+
+TalkConfig
+{
+	"\0\b[2]\_q\" 
+	--
+	"f[bold,1]Rabite's name:\f[bold,0] %(username) \f[sup,1](\q[Change it?,TEACHNAME])\f[sup,0]\n"
+	--
+	"\f[bold,1]Rabite's pronouns:\f[bold,0] %(heshe)/%(himher)/%(hisher) \f[sup,1](\q[Change them?,TEACHPRONOUN])\f[sup,0]\n"
+	--
+	"\f[bold,1]Talk Rate:\f[bold,0] - every %(talktime) \f[sup,1](\q[Change it,talkinter])\f[sup,0]\n\n"
+	--		
+		{
+		"\![*]Enable Uninstall? (NOW : %(deleteshitai))\n\q[ON,deleteon] \q[OFF,deleteoff]\n\n[half]\n"
+		}
+	--
+	"\![*]\q[Back to the menu,BACKTOMENU]\e"
+}
+
+Select.TEACHPRONOUN
+{
+	"\0\s[0]What are the pronouns of your Rabite?\w5\n\n[half]\_q/
+		\![*]\q[He-His-Him,choicemasc]\n/
+		\![*]\q[She-Her-Her,choicefem]\n/	
+		\![*]\q[They-Their-Them,choiceneither]\e"
+}
+
+Select.choicemasc
+{
+	presuffix = "masculine"
+	himher = "him"
+	heshe = "he"
+	hisher = "his"
+	hesshes = "he's"
+	--
+	"\0\s[0]The pronouns are now he, him, and his.\e"
+}
+
+Select.choicefem
+{
+	presuffix = "feminine"
+	himher = "her"
+	heshe = "she"
+	hisher = "her"
+	hesshes = "she's"
+	--
+	"\0\s[0]The pronouns are now she, her, and her.\e"
+}
+
+Select.choiceneither
+{
+	presuffix = "undefine"
+	himher = "them"
+	heshe = "they"
+	hisher = "their"
+	hesshes = "they're"
+	--
+	"\0\s[0]The pronouns are now they, them, and their.\e"
+}
+
+
+Select.deleteon
+{
+	deleteshitai = "ON"
+	TalkConfig
+}
+
+Select.deleteoff
+{
+	deleteshitai = "OFF"
+	TalkConfig
+}
+
+Select.talkinter
+ 	{
+ 		"\0\s[0]\b2How often should %(heshe) check on you? It's currently set to %(talktime)./
+ 		\0\n\n[half]/
+ 		\![*]\q[Every 30 seconds,TALKMAX]\n/
+		\![*]\q[Every minute,TALKHIGH]\n/
+ 		\![*]\q[Every 3 minutes,TALKNORMAL]\n/
+		\![*]\q[Every 5 minutes,TALKPOOR]\n/
+ 		\![*]\q[Don't speak,TALKNONE]\n\n[half]/
+		\![*]\q[Don't change,TalksTill]\e"
+	}
+
+Select.TalksTill
+	{
+		"\0\s[0]No changes made.\e"
+	}
+
+Select.TALKMAX
+	{
+ 		talktime = "30 seconds" 
+		aitalkinterval = 30 
+		
+ 		"\0\s[0]You ask %(username) to check in every 30 seconds.\e"
+	}
+
+Select.TALKHIGH
+	{
+ 		talktime = "minute"
+		aitalkinterval = 60
+		
+ 		"\0\s[0]You ask %(username) to check in every minute.\e"
+	}
+
+Select.TALKNORMAL
+	{
+ 		talktime = "3 minutes"
+		aitalkinterval = 180
+		
+ 		"\0\s[0]You ask %(username) to check in every three minutes.\e"
+	}
+
+Select.TALKPOOR
+	{
+ 		talktime = "5 minutes"
+		aitalkinterval = 300
+		
+ 		"\0\s[0]You ask %(username) to check in every five minutes.\e"
+	}
+
+Select.TALKNONE
+	{
+ 		talktime = "never"
+		aitalkinterval = 0
+		
+		"\0\s[2]You tell %(username) to leave you alone.\e"
+	}
+
+Select.TEACHNAME
+	{
+		OnTeachName	
+	}
+
+
+Select.CANCEL
+	{
+		
+ 	}
+
+
+Select.dosomething
+{
+ 		"\0\s[0]\b2You decide to...\n\n"
+		--
+ 		"\![*]\q[Open Calendar,CALENDAR]\n/
+		\![*]\q[Check Email,MailCheck]\n/
+		\![*]\q[Open SSP Preferences,sspconfig]\n/
+		\![*]\q[Empty Recycle Bin,ChoiceGarbagecan]\n/
+		\![*]\q[System Information,ChoiceSystemInformation]\n\n/
+ 		\![*]\q[Back to main menu,BACKTOMENU]\e"
+}
+
+
+Select.CALENDAR
+{
+	"\0\s[0]You open your calendar.\w8\w6\c\![open,calendar]\0\s[9]%(username) looks at it curiously, but ultimately doesn't understand what it is.\w6\w8\0\s[2]\e"
+}
+
+
+Select.sspconfig
+{
+	"\0\s[0]You open the SSP config menu.\w8\w6\c\![open,configurationdialog]\w8\0\s[9]%(username) watches you intensely, but realizes that you're not offering %(himher) a treat and loses interest.\w6\0\s[1]\e"
+}
+
+Select.ChoiceGarbagecan
+{
+	_gomicheck = FUNCTIONEX("gomi.dll", "-n")	
+	
+	if _gomicheck == 0 
+	{
+		"\0\s[0]You tell %(username) to go fetch the garbage even though you know it's empty.\w8\w8\s[-1]\w8\w8\w8\w8\w8\0\s[2]\c%(heshe) looks bamboozled.\e"
+		affection--
+	}
+	elseif _gomicheck >= 1 
+	{
+		"\0\s[0]You tell %(username) to fetch the garbage and %(heshe) bounds away in excitement.\w8\w8\s[-1]\w8\w8\w8\w8\w8\![raise,OnGarbagecanEmpty]\w9\w9\w9\0\s[5]\c... There's bits of files stuck to %(hisher) fur, but %(heshe) looks pleased with whatever %(heshe) ate.\e"
+		affection++
+	}
+}
+
+OnGarbagecanEmpty
+{
+	_gomi = FUNCTIONEX("gomi.dll", "-f")
+}
+
+Select.ChoiceSystemInformation
+{
+	os_name = FUNCTIONEX("saori_cpuid.dll","os.name")
+	os_version = FUNCTIONEX("saori_cpuid.dll","os.version")
+	cpu_name = FUNCTIONEX("saori_cpuid.dll","cpu.name")
+	cpu_clockex = FUNCTIONEX("saori_cpuid.dll","cpu.clockex")
+	"/
+	\0\s[0]\b[2]/
+	\_q\f[bold,1]OS:\f[bold,0] %(os_name) %(os_version)\n/
+	\f[bold,1]Memory Load:\f[bold,0] %(memoryload)%\n/
+	\f[bold,1]Physical Memory:\f[bold,0] %(memoryavailphys) KB\n/
+	\f[bold,1]CPU:\f[bold,0] %(cpu_name) %(cpu_clockex)MHz\n/
+	\f[bold,1]Ukagaka:\f[bold,0] %property[baseware.version]/
+	\e"
+}
+	
+Select.MailCheck
+	{
+		"\![biff]\e"
+	}
+
+Select.foodie
+{
+	"\0\s[0]\_qWhat would you like to feed %(username)?"
+	--
+	"\n\n/
+	\![*]\q[Spiny Carrot,carrots]\n/
+	\![*]\q[Springanana,banana]\n/
+	\![*]\q[Bellgrapes,grapes]\n/
+	\![*]\q[Conchurnip,turnip]\n/
+	\![*]\q[Cornflower,corncob]\n\n/
+	\![*]\q[Nevermind,nofoodforyou]\e"
+}
+
+Select.carrots
+{
+	"\p[2]\s[52]\0\s[6]You feed %(username) a Spiny Carrot!\w8\w6\n\n\p[2]\s[-1]\0\s[5]What a happy Rabite!\e"
+	affection++
+}
+
+Select.banana
+{
+	"\p[2]\s[53]\0\s[6]You're not sure how to peel this but... You feed %(username) a Springanana!\w8\w6\n\n\p[2]\s[-1]\0\s[5]%(username) eats it with no issues, peel and all.\n\n\w6\w6What a weird Rabite!\e"
+	affection++
+}
+
+Select.grapes
+{
+	"\p[2]\s[54]\0\s[6]You feed %(username) Bellgrapes!\w8\w6\n\n\p[2]\s[-1]\0\s[5]What a happy Rabite!\e"
+	affection++
+}
+
+Select.turnip
+{
+	"\p[2]\s[51]\0\s[6]You feed %(username) a Conchurnip!\w8\w6\n\n\p[2]\s[-1]\0\s[5]What a happy Rabite!\e"
+	affection++
+}
+
+Select.corncob
+{
+	"\p[2]\s[55]\0\s[6]You feed %(username) Bellgrapes!\w8\w6\n\n\p[2]\s[-1]\0\s[5]What a happy Rabite!\e"
+	affection++
+}
+
+Select.nofoodforyou
+{
+	"\0\s[6]You decide to put %(username) on a diet instead.\w8\w6\0\s[2]\n\nWhat a sad face.\e"
+	affection--
+}
+
+
+
+
+Select.playtime
+{
+	"\0\s[0]\_qWhat would you like to play?"
+	--
+	"\n\n/
+	\![*]\q[Fetch,fetchboi]\n/
+	\![*]\q[Actual Games Coming Soon!,cancel]\n\n/
+	//\![*]\q[Cup Game,cupgame]\n/
+	//\![*]\q[Placeholder,placeholder]\n\n/
+	\![*]\q[Nevermind,cancel]\e"
+}
+
+Select.fetchboi
+{
+	"\0\s[0]You wave a stick to get %(username)'s attention, then throw it for %(himher) to fetch.\0\s[-1]\w8\w8\c%(randomfetch)\e"
+}
+
+
+Select.niccolosummoned
+{
+	"\1\s[25]''Hello, there! I am the wandering Niccolo, peddler of smiles!\w8\1\s[25]\n\nMy shop isn't finished just yet, but don't you worry. I'll be up and running by the time you get your hands on some Lucre to spend.''\e"
+}
+
+//Niccolo
+
+OpenKeroMenu
+{
+	"\1\s[26]"
+ 	--
+	"''What can I do for you?''"
+	"''The peddler of smiles, at your service!''"
+ 	--
+	"\_q\n\n/
+	\![*]\q[Chat,niccolospeak]\n/
+	\![*]\q[Ask,niccoloquestion]\n/
+	\![*]\q[Shop,niccolowares]\n/
+	\![*]\q[Challenge,niccolocheats]\n\n/
+	\![*]\q[Go away,yeetthyself]\n/
+	//\![*]\q[Test variable,testvariable]\n\n/
+	\![*]\q[Nothing,keroCANCEL]\e"
+}
+
+
+Select.keroCANCEL
+{
+	"\1\s[26]''Hmph. Time is money, you know.''\e"
+}
+
+Select.yeetthyself
+{
+	"\1\s[26]''Call me if you need anything.''\w8\w8\1\s[-1]\e"
+}
+
+Select.niccolospeak
+{
+	"%(chattyniccolo)\e"
+}
+
+Select.niccoloquestion
+{
+	"\1\s[26]''What do you want to ask?''"
+	--
+	"\n\n/
+	\![*]\q[Rabites,bunmonster]\n/
+	\![*]\q[What are you?,niccolomystery]\n/
+	\![*]\q[Elemental days,elementday]\n/
+	\![*]\q[Other,busybusy]\n\n/
+	\![*]\q[Nevermind,keroCANCEL]\e"
+}
+
+Select.bunmonster
+{
+	"\1\s[26]%(bunnymonster)"
+	--
+	"\n\n/
+	\![*]\q[Ask,niccoloquestion]\n/
+	\![*]\q[Nevermind,nevermind]\e"
+}
+
+Select.niccolomystery
+{
+	"\1\s[26]%(mysteriousniccolo)"
+	--
+	"\n\n/
+	\![*]\q[Ask,niccoloquestion]\n/
+	\![*]\q[Nevermind,nevermind]\e"
+}
+
+Select.elementday
+{
+	"\1\s[26]\b2''Hm? What's the deal with the names of the week days?\w8\w6 Well don't \f[italic,true]you\f[italic,false] live under a rock.\w6\w8\n\nThe days of the week are named after the seven Spirits created by the Mana Goddess: Aura, Shade, Gnome, Undine, Salamander, Dryad, and Jinn. Our weeks used to only be six days long--which left out the Shade--but since Fa'Diel has begun trade with other countries, we've adopted the seven-day format to avoid confusion. I wouldn't pay it any attention anyways: only mages care about what spirit's day it is.''\w8\w6"
+	--
+	"\n\n/
+	\![*]\q[Ask,niccoloquestion]\n/
+	\![*]\q[Nevermind,nevermind]\e"
+}
+
+Select.busybusy
+{
+	"\1\s[26]''I'd love to keep answering questions, but I really do need to finish setting up shop. Maybe you can ask me more once I'm done.''\e"
+}
+
+Select.niccolowares
+{
+	"\1\s[25]''A bit early, aren't you? I haven't even had time to set up shop!\w8\1\s[26] But don't worry; you'll be able to spend your Lucre soon enough.''\e"
+}
+
+Select.niccolocheats
+{
+	"\1\s[26]''I'm a champion at rock, paper, scissors, you know. Wanna try your luck?''"
+	--
+	"\n\n/
+	\![*]\q[Sure,rockon]\n/
+	\![*]\q[No thanks,notthistime]\e"
+}
+
+Select.rockon
+{
+	"\1\s[26]''Hehe. Prepare to lose.\n\n\w8Rock...\w8 Paper...\w8 Scissors!''"
+	--
+	"\n\n/
+	\![*]\q[Rock!,rocknroll]\n/
+	\![*]\q[Paper!,papermate]\n/
+	\![*]\q[Scissors!,scissorsisters]\e"
+}
+
+Select.rocknroll
+{
+	"\1\s[25]''Haha! I chose paper! Good effort.''"
+	"\1\s[25]''So close!\w6\1\s[26] Paper was my choice.''"
+	"\1\s[26]''You chose rock? A solid choice... \w6\1\s[25]But it's no match for my paper.''"
+	"\1\s[26]''...''\w8\w8\w8\w8\w8\c''...''\w8\w8\w8\w8\w8\c''... You're a dirty cheat.''"
+	--
+	"\n\n/
+	\![*]\q[Again!,rockon]\n/
+	\![*]\q[Nevermind,notthistime]\e"
+}
+
+Select.papermate
+{
+	"\1\s[25]''Haha! I chose scissors! Good effort.''"
+	"\1\s[26]''So close! Scissors was my choice.''"
+	"\1\s[26]''You chose Paper? What a shame... \w6\1\s[25]I chose scissors.''"
+	"\1\s[26]''...''\w8\w8\w8\w8\w8\c''...''\w8\w8\w8\w8\w8\c''... You're a dirty cheat.''"
+	--
+	"\n\n/
+	\![*]\q[Again!,rockon]\n/
+	\![*]\q[Nevermind,notthistime]\e"
+}
+
+Select.scissorsisters
+{
+	"\1\s[25]''Haha! I chose rock! Good effort.''"
+	"\1\s[26]''So close! Rock was my choice.''"
+	"\1\s[26]''You chose scissors? Sharp... \w6\1\s[25]But it's no match for my rock.''"
+	"\1\s[26]''...''\w8\w8\w8\w8\w8\c''...''\w8\w8\w8\w8\w8\c''... You're a dirty cheat.''"
+	--
+	"\n\n/
+	\![*]\q[Again!,rockon]\n/
+	\![*]\q[Nevermind,notthistime]\e"
+}
+
+
+
+
+
+OnChoiceTimeout
+ {
+	
+ }

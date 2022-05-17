@@ -1,0 +1,83 @@
+﻿
+
+OnMouseMove
+ {
+		if reference3 == 0 
+		{
+			MouseMoveSakura
+		}
+		else
+		{
+			MouseMoveKero
+		}
+ }
+ 
+ 
+MouseMoveSakura
+ {
+	if reference4 != "" 
+ 	{
+ 		stroke++ 
+ 		if stroke >= 40 
+		{
+ 			stroke = 0 
+			if reference4 == "Head"
+ 			{
+				"\0\s[4]%(username)'s tail shakes happily as you pet %(hisher) ears.\e"
+				"\0\s[1]%(username) sighs in contentment as you pet %(hisher) ears.\e"
+				"\0\s[0]%(username) nibbles at your fingertips curiously as you pet %(himher).\e" 
+				affection++
+ 			}
+			elseif reference4 == "Tail" 
+ 			{
+ 				"\0\s[2]You mess with %(username)'s tail, but %(heshe) looks uncomfortable.\e"
+				"\0\s[3]%(username) yelps when you pull %(hisher) tail.\e"
+				affection--
+ 			}
+			
+ 		}
+	}
+ 	else
+	{
+		stroke = 0
+ 	}
+}
+
+
+OnMouseDoubleClick
+ {
+	if reference5 == 0 
+	{
+	 	if reference3 == 0 
+		{
+		MouseDoubleClickSakura
+		}
+		else
+		{
+ 		MouseDoubleClickKero
+		}
+	}
+ }
+
+
+ 
+MouseDoubleClickSakura
+ {
+ 	if reference4 == "Tail" 
+	{
+		"\0\s[0]You hit the Rabite.\w8\n\n\0\s[2]Your fist bounces off %(hisher) jiggly body and %(heshe) looks at you in confusion.\e"
+		"\0\s[0]You pull %(username)'s tail.\w8\n\n\0\s[3]You made %(himher) yelp in pain.\e"
+		affection--
+ 	}
+	else
+ 	{
+ 		OpenSakuraMenu
+	}
+ }
+
+MouseDoubleClickKero
+ {
+ 	{
+		OpenKeroMenu
+	}
+ }

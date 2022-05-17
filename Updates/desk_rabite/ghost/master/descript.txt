@@ -1,0 +1,16 @@
+﻿charset,UTF-8
+name,Desktop Rabite
+type,ghost
+
+sakura.name,Rabite
+kero.name,Niccolo
+
+craftman,CrabbyMaiden
+craftmanurl,https://crabbymaiden.tumblr.com/
+
+sstp.allowunspecifiedsend,0
+shiori,aya5.dll
+
+icon,bunny.ico
+
+balloon,mana_simple

@@ -1,0 +1,275 @@
+﻿AiTalk
+ {
+	if RAND(100) < communicateratio
+ 	{
+ 		StartCommunicate
+	}
+ 	else
+	{
+ 		if mikireflag == 0
+		{
+			if CHAIN.IDName == "" {
+ 				lastTalk = RandomTalk
+			}
+			else {
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+ 		else
+		{ 
+		MikireTalk
+ 		}
+	}
+ }
+
+
+RandomTalk : nonoverlap
+{
+	"\0\s[0]Your Rabite is sniffing around your desktop.\e"
+	
+	"\0\s[8]%(username) cuddles up to you with a soft sigh.\e"
+	
+	"\0\s[0]You squish and jiggle the Rabite's body curiously and note it's like a giant, furry marshmallow.\w6\w8\n\n\0\s[8]%(username) doesn't quite get what you're doing, but appreciates the attention all the same.\e"
+	affection++
+	
+	"\0\s[0]%(username) is poking around in your %(userfolder). You hope %(heshe) doesn't eat anything %(heshe) isn't supposed to...\e"
+	
+	
+	if affection > 75
+	{
+		"\0\s[4]%(username) really loves you!\e"
+	}
+	elseif affection < 75 && affection > 50
+	{
+		"\0\s[0]%(username) enjoys being around you!\e"
+	}
+	elseif affection < 50 && affection > 25
+	{
+		"\0\s[0]%(username) is friendly with you!\e"
+	}
+	elseif affection < 20
+	{
+		"\0\s[7]%(username) looks upset...\e"
+	}
+	
+	if affection > 50
+	{
+		"\0\s[8]%(username) squeaks to remind you to stay hydrated!\e"
+	}
+	elseif affection < 50
+	{
+		"\0\s[5]%(username) is making a mess of %(hisher) water bowl.\e"
+	}
+	
+	if affection < 20
+	{
+		"\0\s[7]%(username) looks lonely...\e"
+	}
+	elseif affection > 20
+	{
+		"\0\s[1]%(username) is lazing about.\e"
+	}
+
+	"\0\s[5]You catch %(username) eating files from your %(userfolder).\n\n\![*]\q[Praise,goodbun]\n\![*]\q[Scold,badbun]\e"
+
+	"\0\s[0]%(username) nudges you and encourages you to stand up and stretch your legs with %(himher)!\n\n\![*]\q[Go for a walk,yeswalkies]\n\![*]\q[Not now,nowalkies]\e"
+
+
+//Fa'Diel days of the week
+	if weekday == 1
+	{
+		"\0\s[0]It's Shade Day!\e"
+	}
+	if weekday == 2
+	{
+		"\0\s[0]It's Gnome Day!\e"
+	}
+	if weekday == 3
+	{
+		"\0\s[0]It's Jinn Day!\e"
+	}
+	if weekday == 4
+	{
+		"\0\s[0]It's Dryad Day!\e"
+	}
+	if weekday == 5
+	{
+		"\0\s[0]It's Undine Day!\e"
+	}
+	if weekday == 6
+	{
+		"\0\s[0]It's Salamander Day!\e"
+	}
+	if weekday == 7
+	{
+		"\0\s[0]It's Aura Day!\e"
+	}
+	
+	
+	if timeslot == "earlymorning"
+	{
+		"\0\s[1]%(username) is snoring loudly.\e"
+	}
+	if timeslot == "morning"
+	{
+		"\0\s[1]Your rabite still looks sleepy...\w8\0\s[6] But perks up the moment you shake %(hisher) food at %(himher).\e"
+	}
+	if timeslot == "lunch"
+	{
+		"\0\s[6]%(username) is begging for food already.\e"
+		"\0\s[5]%(username) is enjoying %(hisher) food. Be sure to make yourself some lunch as well!\e"
+	}
+	if timeslot == "afternoon"
+	{
+		"\0\s[1]It looks like your rabite is taking an afternoon nap. Be sure to enjoy some fresh air today!\e"
+	}
+	if timeslot == "evening"
+	{
+		"\0\s[6]%(username) is begging for food again.\w8\n\nAre Rabites ever NOT hungry?\e"
+		"\0\s[6]%(username) looks ready for dinner!\e"
+	}
+	if timeslot == "latenight"
+	{
+		"\0\s[1]Your rabite is content to snuggle up and sleep while you wind down.\e"
+		"\0\s[0]%(username) squeaks to check and make sure you've taken any medications you need for the night.\e"
+	}
+	if timeslot == "midnight"
+	{
+		"\0\s[1]You're not sure if the loudest alarm could wake that chubby bunny.\e"
+	}
+}
+
+
+
+Select.goodbun
+{
+	"\0\s[5]You tell %(username) %(heshe) is the best bunny for keeping your desktop clean!\0\s[4]\n\n%(username) looks happy to help!\e"
+	affection++
+	"%(goodrabite)\e"
+}
+	
+Select.badbun
+{
+		"\0\s[5]You call %(himher) a naughty bunny for eating important files without permission.\0\s[7]\n\n%(username) looks really sorry for upsetting you...\e"
+		affection++
+		"%(badrabite)\e"	
+}
+
+Select.yeswalkies
+{
+	"\0\s[0]You stand up to take a short walk.\w6\w8\n\n\0\s[4]%(username) eagerly bounces around with you!\e"
+	affection++
+}
+
+Select.nowalkies
+{
+	"\0\s[0]You tell %(himher) you'll stretch later.\w6\w8\n\n\0\s[7]%(username) deflates and quietly leaves you be.\e"
+	affection--
+}
+
+
+
+HourCheck
+{
+if passmin >= 60
+	{
+		passmin = 0
+		passhour = passhour + 1
+	}
+}
+
+
+OnMinuteChange 
+ {
+	HourCheck 
+	--
+ 	if minute == 0 
+	{
+ 		if hour == 12 
+		{
+ 			"\0\s[2]Your rabite looks hungry. Is it lunchtime already?\e"
+		}
+ 		elseif hour == 0
+		{
+ 			"\0\s[1]Your rabite looks sleepy. It \f[italic,true]is\f[italic,false] getting late...\e"
+		}
+		elseif hour == 20
+		{
+ 			"\0\s[8]%(username) squeaks to remind you about your nightly routines!\e"
+		}
+		else
+		{
+			"\0\s[0]You notice it's %(hour12)'o clock.\e"
+		}
+	}
+	
+	elseif mikireflag == 1
+ 	{
+ 		MikireTalk
+	}
+ }
+
+
+OnSecondChange
+ {
+	if passsec == 59
+ 		{
+	 	passsec = 1
+ 		passmin = passmin + 1
+		}
+ 	else
+ 		{
+	 	passsec = passsec + 1
+		}
+	if mikireflag == 0 && reference1 == 1 
+	{
+		//"\0\s[2]%(username) wriggles a bit as you move %(himher) off screen."
+		
+		MikireTalk
+	}
+	if mikireflag == 1 && reference1 == 0 
+	{
+		EndMikireTalk
+	}
+	mikireflag = reference1 
+	if reference2 == 1
+	{
+ 		
+	}
+ }
+
+ 
+MikireTalk
+ {
+	"\0\s[2]You hear a confused squeak."
+ }
+ 
+EndMikireTalk
+ {
+	"\0\s[4]Your Rabite looks happy to see you again!\e"
+ }
+
+
+OnSurfaceRestore
+ {
+	"\0\s[0]\e"
+ }
+
+ 
+ 
+OnKeyPress
+{
+	if reference0 == "t"
+	{
+	OnAiTalk
+	}
+	elseif reference0 == "r"
+	{
+	OnLastTalk
+	}
+	elseif reference0 == "f1"
+	{
+	"\![open,readme]"
+	}
+}

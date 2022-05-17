@@ -1,0 +1,5 @@
+﻿charset,UTF-8
+type,ghost
+name,Desktop Rabite
+directory,desk_rabite
+balloon.directory,mana_simple

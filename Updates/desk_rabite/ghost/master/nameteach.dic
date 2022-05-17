@@ -1,0 +1,35 @@
+﻿
+OnTeachName	
+{
+	if reference0 == "TEACHNAME" 
+		{
+		"\0\s[0]What name would you like to give your Rabite?\![open,inputbox,OnNameTeach,-1]\e"
+		}
+	else
+		{
+		
+		}
+}
+
+
+OnNameTeach
+{
+	tempname = reference0
+	username = tempname
+	NameDone
+}
+
+NameDone
+{
+	if firstboot == 1 
+	{
+		firstboot = 0 
+		
+		"\0\s[0]You've named your Rabite %(username). Take good care of %(himher) and %(heshe) will love you unconditionally!\e"
+		affection++
+	}
+	else
+	{
+	"\0\s[0]You named the Rabite %(username).\e"
+	}	
+}
